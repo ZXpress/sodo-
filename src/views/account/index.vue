@@ -5,7 +5,11 @@
         <span>销售模块</span>
       </div>
       <div class="body">
-        <el-button class="operationbtn" style="float: right" type="primary"
+        <el-button
+          class="operationbtn"
+          style="float: right"
+          type="primary"
+          @click="newaccount"
           >新建账户</el-button
         >
         <div class="table">
@@ -39,6 +43,25 @@
         </div>
       </div>
     </el-card>
+    <el-dialog title="新建账户" :visible.sync="dialogVisible" width="30%">
+      <el-form :model="form">
+        <el-form-item label="手机号:" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="昵称:" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱:" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -73,12 +96,29 @@ export default {
         pageSize: 20,
       },
       total: 50,
+      dialogVisible: false,
+      form: {
+        name: "",
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: "",
+      },
+      formLabelWidth: "120px",
     };
+  },
+  methods: {
+    newaccount() {
+      this.dialogVisible = true;
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .text {
   font-size: 14px;
 }
@@ -101,5 +141,17 @@ export default {
 }
 .operationbtn {
   margin-bottom: 10px;
+}
+::v-deep .el-form-item {
+  margin-right: 20px !important;
+}
+::v-deep .el-form-item__label {
+  width: 90px !important;
+}
+::v-deep .el-form-item__content {
+  margin-left: 90px !important;
+}
+::v-deep .el-dialog__body {
+  padding-bottom: 0;
 }
 </style>

@@ -5,7 +5,11 @@
         <span>授权模块</span>
       </div>
       <div class="body">
-        <el-button class="operationbtn" style="float: right" type="primary"
+        <el-button
+          class="operationbtn"
+          style="float: right"
+          type="primary"
+          @click="newauthor"
           >生成临时许可</el-button
         >
         <div class="table">
@@ -43,6 +47,34 @@
         </div>
       </div>
     </el-card>
+    <el-dialog title="生成临时许可" :visible.sync="dialogVisible" width="30%">
+      <el-form :model="form">
+        <el-form-item label="开始时间:" :label-width="formLabelWidth">
+          <div class="block">
+            <el-date-picker v-model="value1" type="date" placeholder="选择日期">
+            </el-date-picker>
+          </div>
+        </el-form-item>
+        <el-form-item label="可使用时间:" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="销售:">
+          <el-select v-model="form.code" placeholder="请选择活动区域">
+            <el-option label="区域一" value="shanghai"></el-option>
+            <el-option label="区域二" value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="公司名称:" :label-width="formLabelWidth">
+          <el-input v-model="form.name" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false"
+          >确 定</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 
@@ -73,12 +105,31 @@ export default {
         pageSize: 20,
       },
       total: 50,
+      dialogVisible: false,
+      form: {
+        name: "",
+        region: "",
+        date1: "",
+        date2: "",
+        delivery: false,
+        type: [],
+        resource: "",
+        desc: "",
+        code: "",
+      },
+      formLabelWidth: "120px",
+      value1: "",
     };
+  },
+  methods: {
+    newauthor() {
+      this.dialogVisible = true;
+    },
   },
 };
 </script>
 
-<style>
+<style scoped>
 .text {
   font-size: 14px;
 }
@@ -98,5 +149,20 @@ export default {
 }
 .operationbtn {
   margin-bottom: 20px;
+}
+::v-deep .el-form-item {
+  margin-right: 20px !important;
+}
+::v-deep .el-form-item__label {
+  width: 90px !important;
+}
+::v-deep .el-form-item__content {
+  margin-left: 90px !important;
+}
+::v-deep .el-dialog__body {
+  padding-bottom: 0;
+}
+::v-deep .el-select {
+  width: 100%;
 }
 </style>

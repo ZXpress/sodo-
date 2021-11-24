@@ -18,39 +18,39 @@
             auto-complete="on"
             label-position="left"
           >
-            <el-form-item prop="phone">
+            <el-form-item prop="account">
               <span class="svg-container">
                 <svg-icon icon-class="user" />
               </span>
               <el-input
-                ref="phone"
-                v-model="loginForm.phone"
+                ref="account"
+                v-model="loginForm.account"
                 placeholder="请输入手机号"
-                name="phone"
+                name="account"
                 type="text"
                 tabindex="1"
                 auto-complete="on"
               />
             </el-form-item>
 
-            <el-form-item prop="pwd">
+            <el-form-item prop="password">
               <span class="svg-container">
                 <svg-icon icon-class="password" />
               </span>
               <el-input
-                :key="pwdType"
-                ref="pwd"
-                v-model="loginForm.pwd"
-                :type="pwdType"
+                :key="passwordType"
+                ref="password"
+                v-model="loginForm.password"
+                :type="passwordType"
                 placeholder="请输入密码"
-                name="pwd"
+                name="password"
                 tabindex="2"
                 auto-complete="on"
                 @keyup.enter.native="handleLogin"
               />
-              <span class="show-pwd" @click="showPwd">
+              <span class="show-password" @click="showPassword">
                 <svg-icon
-                  :icon-class="pwdType === 'password' ? 'eye' : 'eye-open'"
+                  :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'"
                 />
               </span>
             </el-form-item>
@@ -149,16 +149,16 @@ export default {
   name: "Login",
   data() {
     // 自定义校验函数
-    const validatePhone = function (rule, value, callback) {
-      // 校验value
-      // if (validMobile(value)) {
-      //   // 如果通过 直接执行callback
-      //   callback()
-      // } else {
-      //   callback(new Error('手机号格式不正确'))
-      // }
-      validPobile(value) ? callback() : callback(new Error("手机号格式不正确"));
-    };
+    // const validateAccount = function (rule, value, callback) {
+    // 校验value
+    // if (validMobile(value)) {
+    //   // 如果通过 直接执行callback
+    //   callback()
+    // } else {
+    //   callback(new Error('手机号格式不正确'))
+    // }
+    //   validPobile(value) ? callback() : callback(new Error("手机号格式不正确"));
+    // };
 
     return {
       // 获取图形验证码
@@ -171,10 +171,11 @@ export default {
       activeName: "first", // tabs标签页默认选中
 
       loginForm: {
-        phone: "",
-        pwd: "",
-        verifyCode: "",
-        messagecode: "",
+        account: "",
+        password: "",
+        // verifyCode: "",
+        // messagecode: "",
+        type: "account",
       },
       codeLoginForm: {
         phone: "",
@@ -183,14 +184,14 @@ export default {
         messagecode: "",
       },
       loginRules: {
-        phone: [
+        account: [
           { required: true, trigger: "blur", message: "手机号不能为空" },
           {
-            validator: validatePhone,
+            // validator: validateAccount,
             trigger: "blur",
           },
         ],
-        pwd: [
+        password: [
           { required: true, trigger: "blur", message: "密码不能为空" },
           {
             min: 6,
@@ -210,7 +211,7 @@ export default {
         ],
       },
       loading: false,
-      pwdType: "password",
+      passwordType: "password",
       redirect: undefined,
     };
   },
@@ -245,14 +246,14 @@ export default {
 
     ...mapActions(["user/login"]),
 
-    showPwd() {
-      if (this.pwdType === "password") {
-        this.pwdType = "";
+    showPassword() {
+      if (this.passwordType === "password") {
+        this.passwordType = "";
       } else {
-        this.pwdType = "password";
+        this.passwordType = "password";
       }
       this.$nextTick(() => {
-        this.$refs.pwd.focus();
+        this.$refs.password.focus();
       });
     },
 
@@ -481,7 +482,7 @@ $light_gray: #eee;
     }
   }
 
-  .show-pwd {
+  .show-password {
     position: absolute;
     right: 10px;
     top: 7px;

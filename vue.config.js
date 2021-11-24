@@ -39,7 +39,7 @@ module.exports = {
     // 配纸代理解决跨域问题
     proxy: {
       // 当我们的本地的请求 有的时候，就会代理我们的请求地址向另外一个服务器发出请求
-      "/staff/": {
+      "/admin/": {
         target: "http://cloud-grant.sodo-tech.com",
         changeOrigin: true,
         pathRewrite: {

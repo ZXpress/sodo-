@@ -14,16 +14,21 @@
           >新增</el-button
         >
         <div class="table">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="模块名称" width="180">
+          <el-table :data="basictableData" style="width: 100%">
+            <el-table-column prop="moduleName" label="模块名称" min-width="160">
             </el-table-column>
-            <el-table-column prop="name" label="说明" width="180">
+            <el-table-column prop="description" label="说明" min-width="250">
             </el-table-column>
-            <el-table-column prop="name" label="年租赁单价/元">
+            <el-table-column prop="price" label="年租赁单价/元" min-width="120">
             </el-table-column>
-            <el-table-column prop="name" label="模块编码"> </el-table-column>
-            <el-table-column prop="name" label="备注"> </el-table-column>
-            <el-table-column prop="name" label="操作">
+            <el-table-column prop="code" label="模块编码" min-width="160">
+            </el-table-column>
+            <el-table-column prop="remark" label="备注" min-width="120">
+              <template slot-scope="scope">
+                {{ scope.row.remark ? scope.row.remark : "——" }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="name" label="操作" min-width="120">
               <template>
                 <el-button type="text">编辑</el-button>
                 <el-button type="text">删除</el-button>
@@ -47,16 +52,48 @@
           >新增</el-button
         >
         <div class="table">
-          <el-table :data="tableData" style="width: 100%">
-            <el-table-column prop="date" label="模块名称" width="180">
+          <el-table
+            :data="usertableData"
+            style="width: 100%"
+            row-key="description"
+            default-expand-all
+            :tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
+          >
+            <el-table-column prop="moduleName" label="模块名称" min-width="160">
             </el-table-column>
-            <el-table-column prop="name" label="说明" width="180">
+            <el-table-column prop="description" label="说明" min-width="250">
             </el-table-column>
-            <el-table-column prop="name" label="单价(元/人)"> </el-table-column>
-            <el-table-column prop="name" label="统一价"> </el-table-column>
-            <el-table-column prop="name" label="模块编码"> </el-table-column>
-            <el-table-column prop="name" label="备注"> </el-table-column>
-            <el-table-column prop="name" label="操作">
+            <el-table-column
+              prop="singlePrice"
+              label="单价(元/人)"
+              min-width="100"
+            >
+              <template slot-scope="scope">
+                {{ scope.row.singlePrice ? scope.row.singlePrice : "——" }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="price" label="统一价" min-width="100">
+              <template slot-scope="scope">
+                {{
+                  scope.row.price
+                    ? scope.row.children
+                      ? "——"
+                      : scope.row.price
+                    : "——"
+                }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="code" label="模块编码" min-width="100">
+              <template slot-scope="scope">
+                {{ scope.row.code ? scope.row.code : "——" }}
+              </template>
+            </el-table-column>
+            <el-table-column prop="remark" label="备注" min-width="100">
+              <template slot-scope="scope">
+                {{ scope.row.remark ? scope.row.remark : "——" }}
+              </template>
+            </el-table-column>
+            <el-table-column label="操作" min-width="100">
               <template>
                 <el-button type="text">编辑</el-button>
                 <el-button type="text">删除</el-button>
@@ -66,10 +103,10 @@
         </div>
       </div>
     </el-card>
-    <!-- 扩展模块 -->
+    <!-- 拓展模块 -->
     <el-card class="box-card" shadow="hover">
       <div slot="header" class="clearfix">
-        <span>扩展模块</span>
+        <span>拓展模块</span>
       </div>
       <div class="body">
         <el-button
@@ -80,7 +117,7 @@
           >新增</el-button
         >
         <div class="table">
-          <el-table :data="tableData" style="width: 100%">
+          <el-table :data="extendableData" style="width: 100%">
             <el-table-column prop="date" label="模块名称" width="180">
             </el-table-column>
             <el-table-column prop="name" label="说明" width="180">
@@ -346,8 +383,8 @@
       </span>
     </el-dialog>
 
-    <!-- 扩展模块新增弹层 -->
-    <el-dialog title="扩展模块" :visible.sync="extendialogVisible" width="35%">
+    <!-- 拓展模块新增弹层 -->
+    <el-dialog title="拓展模块" :visible.sync="extendialogVisible" width="35%">
       <div>
         <el-form ref="extendform" :model="extendform" label-width="80px">
           <el-form-item label="模块名称:">
@@ -560,30 +597,22 @@
 </template>
 
 <script>
+import { getBasicList, getOtherList } from "@/api/basic/index";
 export default {
+  created() {
+    // 获取基础模块列表
+    this.getBasicList();
+    // 获取用户模块和拓展模块列表
+    this.getOtherList();
+  },
   data() {
     return {
-      tableData: [
-        {
-          date: "2016-05-02",
-          name: "王小虎",
-        },
-        {
-          date: "2016-05-04",
-          name: "王小虎",
-        },
-        {
-          date: "2016-05-01",
-          name: "王小虎",
-        },
-        {
-          date: "2016-05-03",
-          name: "王小虎",
-        },
-      ],
+      basictableData: [],
+      usertableData: [],
+      extendableData: [],
       basicdialogVisible: false, // 基础模块弹层
       userdialogVisible: false, // 用户模块弹层
-      extendialogVisible: false, // 扩展模块弹层
+      extendialogVisible: false, // 拓展模块弹层
       // 基础模块弹层表单
       basicform: {
         name: "",
@@ -600,7 +629,7 @@ export default {
         code: "",
         remake: "",
       },
-      // 扩展模块弹层表单
+      // 拓展模块弹层表单
       extendform: {
         name: "",
         description: "",
@@ -610,9 +639,39 @@ export default {
       activeName: "first", // 标签默认显示
       num: 1,
       input: "",
+      type: {
+        type1: 2, // 用户模块
+        type2: 3, // 拓展模块
+      },
     };
   },
   methods: {
+    async getBasicList() {
+      const result = await getBasicList();
+      this.basictableData = result.useModules;
+    },
+    async getOtherList() {
+      const result = await getOtherList(this.type.type1);
+      // console.log(result);
+      const useModules = result.useModules;
+      const moduleItems = result.moduleItems;
+      useModules.forEach((item, index) => {
+        moduleItems.forEach((val, ind) => {
+          if (item.id == val.moduleId) {
+            val.moduleName = val.name;
+            if (item.children) {
+              item.children.push(val);
+            } else {
+              item.children = [];
+              item.children.push(val);
+            }
+          }
+        });
+      });
+      // console.log(useModules);
+      this.usertableData = useModules;
+      // this.usertableData = [...result.useModules, ...result.moduleItems];
+    },
     // 基础模块新增
     basicbtn() {
       this.basicdialogVisible = true;
@@ -621,7 +680,7 @@ export default {
     userbtn() {
       this.userdialogVisible = true;
     },
-    // 扩展模块新增
+    // 拓展模块新增
     extendbtn() {
       this.extendialogVisible = true;
     },

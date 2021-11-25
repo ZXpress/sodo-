@@ -67,8 +67,9 @@ div:focus {
 }
 
 .router-link-exact-active {
-  background-color: #1890ff;
+  background-color: #1890ff !important;
   .el-menu-item {
+    background-color: #1890ff !important;
     .svg-icon {
       color: #fff !important;
     }

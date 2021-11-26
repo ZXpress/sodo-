@@ -53,6 +53,10 @@ service.interceptors.response.use(
     } else {
       if (code == 0) {
         return data;
+      } else if (code == -2) {
+        this.$message.error("token失效");
+        Message.error("token失效"); // 提示错误消息
+        store.dispatch("user/logout"); // 登出操作
       } else {
         // 业务已经错误了 还能进then ? 不能 ！ 应该进catch
         Message.error(err); // 提示错误消息

@@ -1,4 +1,5 @@
 import request from "@/utils/request";
+import qs from "qs";
 
 // 基础模块信息列表
 export function getBasicList() {
@@ -17,7 +18,15 @@ export function setBasicList(params) {
   });
 }
 
-// 删除模块信息
+// 获取单个模块信息
+export function getBasicListId(moduleId) {
+  return request({
+    url: `/admin/module/get/${moduleId}`,
+    method: "get",
+  });
+}
+
+// 删除单个模块信息
 export function delateBasicList(moduleId) {
   return request({
     url: "/admin/module/delete/" + moduleId,
@@ -38,8 +47,9 @@ export function moduleMoreEdit(params) {
   return request({
     url: "/admin/module/more/edit",
     method: "post",
-    params,
+    data: qs.stringify(params),
   });
+  // request.post("/admin/module/more/edit", qs.stringify(params));
 }
 
 // 获取默认子项信息

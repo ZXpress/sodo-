@@ -331,7 +331,7 @@ $cursor: #fff;
 
   .el-input {
     display: inline-block;
-    height: 47px;
+    height: 38px;
     width: 85%;
 
     input {
@@ -352,10 +352,12 @@ $cursor: #fff;
   }
 
   .el-form-item {
+    height: 39px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(255, 255, 255, 0.7); // 输入登录表单的背景色
     border-radius: 5px;
     color: #454545;
+    margin-bottom: 24px;
   }
 
   .code {
@@ -365,7 +367,7 @@ $cursor: #fff;
 
   .verifyimg {
     width: 170px;
-    height: 48.6px;
+    height: 39.6px;
     border-radius: 5px;
     padding: 0;
   }
@@ -416,10 +418,18 @@ $cursor: #fff;
     left: 50%;
     transform: translateX(-50%);
     background: #407ffe;
-    width: 450px;
-    height: 64px;
-    line-height: 32px;
-    font-size: 24px;
+    width: 330px;
+    height: 40px;
+    line-height: 16px;
+    font-size: 16px;
+    margin-top: 16px;
+  }
+
+  .el-input__inner {
+    height: 38px !important;
+  }
+  .el-form-item__content {
+    height: 39px;
   }
 }
 </style>
@@ -437,7 +447,7 @@ $light_gray: #eee;
 
   .login-form {
     position: relative;
-    width: 520px;
+    width: 400px;
     max-width: 100%;
     padding: 160px 35px 0;
     margin: 0 auto;
@@ -457,10 +467,12 @@ $light_gray: #eee;
   }
 
   .svg-container {
-    padding: 6px 5px 6px 15px;
+    padding: 0px 5px 0px 15px;
     color: $dark_gray;
     vertical-align: middle;
     width: 30px;
+    height: 38px;
+    line-height: 38px;
     display: inline-block;
   }
 
@@ -469,7 +481,7 @@ $light_gray: #eee;
     top: 150px;
 
     .title {
-      font-size: 26px;
+      font-size: 24px;
       color: $light_gray;
       margin: 0px auto 10px auto;
       text-align: center;
@@ -482,10 +494,10 @@ $light_gray: #eee;
     }
   }
 
-  .show-password {
+  .show-pwd {
     position: absolute;
     right: 10px;
-    top: 7px;
+    top: 0px;
     font-size: 16px;
     color: $dark_gray;
     cursor: pointer;
